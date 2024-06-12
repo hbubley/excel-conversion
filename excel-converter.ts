@@ -57,7 +57,8 @@ function calculateAgeBasedOnBirthDate(birthDate: Date): number {
 
 function splitFullName(fullName: string): IName {
     const splitName = fullName.split(" ")
-    const nameObject = { firstName: splitName[0], lastName: splitName[2] ? splitName[2] : splitName[1] };
+    const lastArrayElement = splitName.length - 1
+    const nameObject = { firstName: splitName[0], lastName: splitName[lastArrayElement] };
 
     return nameObject;
 }
