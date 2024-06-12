@@ -24,15 +24,8 @@ function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const birthDate = new Date(originalPerson.Birthday);
     const endDate = originalPerson.Died && originalPerson.Died !== "null" ? new Date(originalPerson.Died) : new Date();
     const age = calculateAge(birthDate, endDate);
-    const relatives: IRelative[] = [];
-
-    for (const relative of Object.values(PossibleRelatives)) {
-        if (originalPerson[relative] && originalPerson[relative] !== "null") {
-            const relativeNameObject = splitFullName(originalPerson[relative] as string);
-            relatives.push({ ...relativeNameObject, relationship: relative });
-        }
-    }
-
+    const relatives = getRelatives(originalPerson);
+    
     return {
         ...nameObject,
         birthday: birthDate.toISOString().split('T')[0],
@@ -59,7 +52,16 @@ function calculateAge(birthDate: Date, endDate: Date): number {
 function splitFullName(fullName: string): IName {
     const splitName = fullName.split(" ");
 
-    return { firstName: splitName[0], lastName: splitName.pop() || "" };
+    return { firstName: splitName[0], lastName: splitName.pop() ?? "" };
+}
+
+function getRelatives(originalPerson: IOriginalPerson): IRelative[] {
+    return Object.values(PossibleRelatives)
+        .filter((relative) => originalPerson[relative] && originalPerson[relative] !== "null")
+        .map((relative) => {
+            const relativeNameObject = splitFullName(originalPerson[relative] as string);
+            return { ...relativeNameObject, relationship: relative };
+        });
 }
 
 function writeDataToJson(data: any, filePath: string): void {
