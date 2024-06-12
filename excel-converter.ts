@@ -4,7 +4,14 @@ import { IConvertedPerson, IName, IOriginalPerson, IRelative } from './types';
 
 const inputFile = 'input.csv';
 const outputFile = 'output.json';
-const possibleRelatives: (keyof IOriginalPerson)[] = ["Father", "Mother", "Brother", "Sister"]
+
+enum PossibleRelatives {
+    Father = "Father",
+    Mother = "Mother",
+    Brother = "Brother",
+    Sister = "Sister"
+}
+
 
 const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonFromCsv(inputFile);
 
@@ -18,12 +25,12 @@ function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const age = calculateAgeBasedOnBirthDate(birthDate);
     const relatives: IRelative[] = [];
 
-    possibleRelatives.forEach(relative => {
+    for (const relative of Object.values(PossibleRelatives)) {
         if (originalPerson[relative] && originalPerson[relative] !== "null") {
-            const relativeNameObject = splitFullName(originalPerson[relative] ?? "");
+            const relativeNameObject = splitFullName(originalPerson[relative] as string);
             relatives.push({ ...relativeNameObject, relationship: relative });
         }
-    });
+    }
 
     return {
         ...nameObject,
