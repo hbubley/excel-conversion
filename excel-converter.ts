@@ -10,7 +10,7 @@ const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonF
 
 const convertedPeople: IConvertedPerson[] = originalPeople.map((originalPerson) => convertPerson(originalPerson));
 
-writeDataToJson(convertedPeople);
+writeDataToJson(convertedPeople, outputFile);
 
 function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = splitFullName(originalPerson.Name);
@@ -55,8 +55,8 @@ function splitFullName(fullName: string): IName {
     return nameObject;
 }
 
-function writeDataToJson(data: IConvertedPerson[]): void {
-    const jsonData = JSON.stringify(convertedPeople, null, 2);
+function writeDataToJson(data: any, filePath: string): void {
+    const jsonData = JSON.stringify(data, null, 2);
 
-    fs.writeFileSync(outputFile, jsonData);
+    fs.writeFileSync(filePath, jsonData);
 }
