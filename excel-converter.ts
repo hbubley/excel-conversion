@@ -7,35 +7,32 @@ const outputFile = 'output.json';
 const possibleRelatives: (keyof IOriginalPerson)[] = ["Father", "Mother", "Brother", "Sister"]
 
 const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonFromCsv(inputFile);
-const convertedPeople: IConvertedPerson[] = [];
 
-originalPeople.forEach(originalPerson => {
+const convertedPeople: IConvertedPerson[] = originalPeople.map((originalPerson) => convertPerson(originalPerson));
+
+writeDataToJson(convertedPeople);
+
+function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = splitFullName(originalPerson.Name);
     const birthDate = new Date(originalPerson.Birthday);
     const age = calculateAgeBasedOnBirthDate(birthDate);
     const relatives: IRelative[] = [];
 
     possibleRelatives.forEach(relative => {
-        const relativeDoesNotExist = !originalPerson[relative] || originalPerson[relative] === "null";
-        if (relativeDoesNotExist) {
-            return;
+        if (originalPerson[relative] && originalPerson[relative] !== "null") {
+            const relativeNameObject = splitFullName(originalPerson[relative] ?? "");
+            relatives.push({ ...relativeNameObject, relationship: relative });
         }
+    });
 
-        const relativeNameObject = splitFullName(originalPerson[relative] ?? "");
-        relatives.push({ ...relativeNameObject, relationship: relative })
-    })
-
-    const convertedPerson: IConvertedPerson = {
+    return {
         ...nameObject,
         birthday: birthDate.toISOString().split('T')[0],
         age,
         relatives
     };
+}
 
-    convertedPeople.push(convertedPerson);
-});
-
-writeDataToJson(convertedPeople);
 
 function calculateAgeBasedOnBirthDate(birthDate: Date): number {
     const today = new Date();
