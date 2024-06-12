@@ -17,9 +17,9 @@ export interface IConvertedPerson {
 }
 
 export interface IRelative {
-        firstName: string;
-        lastName: string;
-        relationship: string;
+    firstName: string;
+    lastName: string;
+    relationship: string;
 }
 
 export interface IName {

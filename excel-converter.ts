@@ -22,7 +22,8 @@ function main(inputFilePath: string, outputFilePath: string): void {
 function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = splitFullName(originalPerson.Name);
     const birthDate = new Date(originalPerson.Birthday);
-    const age = calculateAgeBasedOnBirthDate(birthDate);
+    const endDate = originalPerson.Died && originalPerson.Died !== "null" ? new Date(originalPerson.Died): new Date();
+    const age = calculateAge(birthDate, endDate);
     const relatives: IRelative[] = [];
 
     for (const relative of Object.values(PossibleRelatives)) {
@@ -40,12 +41,11 @@ function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     };
 }
 
-function calculateAgeBasedOnBirthDate(birthDate: Date): number {
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
+function calculateAge(birthDate: Date, endDate: Date): number {
+    let age = endDate.getFullYear() - birthDate.getFullYear();
 
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    const hasNotReachedCurrentBirthday = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate());
+    const monthDiff = endDate.getMonth() - birthDate.getMonth();
+    const hasNotReachedCurrentBirthday = monthDiff < 0 || (monthDiff === 0 && endDate.getDate() < birthDate.getDate());
 
     if (hasNotReachedCurrentBirthday) {
         age--;
