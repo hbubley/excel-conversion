@@ -2,9 +2,6 @@ import fs from 'fs';
 import csvToJson from 'convert-csv-to-json';
 import { IConvertedPerson, IName, IOriginalPerson, IRelative } from './types';
 
-const inputFile = 'input.csv';
-const outputFile = 'output.json';
-
 enum PossibleRelatives {
     Father = "Father",
     Mother = "Mother",
@@ -12,12 +9,15 @@ enum PossibleRelatives {
     Sister = "Sister"
 }
 
-
-const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonFromCsv(inputFile);
-
-const convertedPeople: IConvertedPerson[] = originalPeople.map((originalPerson) => convertPerson(originalPerson));
-
-writeDataToJson(convertedPeople, outputFile);
+function main(inputFilePath: string, outputFilePath: string): void {
+    try {
+        const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonFromCsv(inputFilePath);
+        const convertedPeople: IConvertedPerson[] = originalPeople.map((originalPerson) => convertPerson(originalPerson));
+        writeDataToJson(convertedPeople, outputFilePath);
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+}
 
 function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = splitFullName(originalPerson.Name);
@@ -39,7 +39,6 @@ function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
         relatives
     };
 }
-
 
 function calculateAgeBasedOnBirthDate(birthDate: Date): number {
     const today = new Date();
@@ -68,3 +67,5 @@ function writeDataToJson(data: any, filePath: string): void {
 
     fs.writeFileSync(filePath, jsonData);
 }
+
+main('input.csv', 'output.json');
