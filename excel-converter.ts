@@ -22,7 +22,7 @@ function main(inputFilePath: string, outputFilePath: string): void {
 function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = splitFullName(originalPerson.Name);
     const birthDate = new Date(originalPerson.Birthday);
-    const endDate = originalPerson.Died && originalPerson.Died !== "null" ? new Date(originalPerson.Died): new Date();
+    const endDate = originalPerson.Died && originalPerson.Died !== "null" ? new Date(originalPerson.Died) : new Date();
     const age = calculateAge(birthDate, endDate);
     const relatives: IRelative[] = [];
 
