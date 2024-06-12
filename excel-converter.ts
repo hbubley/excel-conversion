@@ -42,10 +42,12 @@ function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
 }
 
 function calculateAge(birthDate: Date, endDate: Date): number {
-    let age = endDate.getFullYear() - birthDate.getFullYear();
+    const endYear = endDate.getFullYear();
+    let age = endYear - birthDate.getFullYear();
 
     const monthDiff = endDate.getMonth() - birthDate.getMonth();
-    const hasNotReachedCurrentBirthday = monthDiff < 0 || (monthDiff === 0 && endDate.getDate() < birthDate.getDate());
+    const dayDiff = endDate.getDate() - birthDate.getDate();
+    const hasNotReachedCurrentBirthday = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) && endYear === new Date().getFullYear();
 
     if (hasNotReachedCurrentBirthday) {
         age--;
