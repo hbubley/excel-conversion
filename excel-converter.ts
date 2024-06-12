@@ -57,11 +57,9 @@ function calculateAge(birthDate: Date, endDate: Date): number {
 }
 
 function splitFullName(fullName: string): IName {
-    const splitName = fullName.split(" ")
-    const lastArrayElement = splitName.length - 1
-    const nameObject = { firstName: splitName[0], lastName: splitName[lastArrayElement] };
+    const splitName = fullName.split(" ");
 
-    return nameObject;
+    return { firstName: splitName[0], lastName: splitName.pop() || "" };
 }
 
 function writeDataToJson(data: any, filePath: string): void {
