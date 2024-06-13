@@ -22,7 +22,7 @@ function main(inputFilePath: string, outputFilePath: string): void {
 function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = extractNames(originalPerson.Name);
     const birthDate = new Date(originalPerson.Birthday);
-    const endDate = isNullCheck(originalPerson.Died) ? new Date(originalPerson.Died as string) : new Date();
+    const endDate = isNull(originalPerson.Died) ? new Date(): new Date(originalPerson.Died as string);
     const age = calculateAge(birthDate, endDate);
     const relatives = getRelatives(originalPerson);
 
@@ -57,15 +57,15 @@ function extractNames(fullName: string): IName {
 
 function getRelatives(originalPerson: IOriginalPerson): IRelative[] {
     return Object.values(PossibleRelatives)
-        .filter((relative) => isNullCheck(originalPerson[relative]))
+        .filter((relative) => !isNull(originalPerson[relative]))
         .map((relative) => {
             const relativeNameObject = extractNames(originalPerson[relative] as string);
             return { ...relativeNameObject, relationship: relative };
         });
 }
 
-function isNullCheck(field: any): boolean {
-    return field && field !== "null" ? true : false;
+function isNull(field: any): boolean {
+    return field && field !== "null" ? false : true;
 }
 
 function writeDataToJson(data: any, filePath: string): void {
