@@ -8,21 +8,17 @@ export interface IOriginalPerson {
     Sister?: string;
 }
 
-export interface IConvertedPerson {
+export interface IName {
     firstName: string;
     lastName: string;
+}
+
+export interface IConvertedPerson extends IName{
     birthday: string;
     age: number;
     relatives?: IRelative[];
 }
 
-export interface IRelative {
-    firstName: string;
-    lastName: string;
+export interface IRelative extends IName {
     relationship: string;
-}
-
-export interface IName {
-    firstName: string;
-    lastName: string;
 }

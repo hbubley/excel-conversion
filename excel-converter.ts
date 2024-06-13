@@ -10,13 +10,9 @@ enum PossibleRelatives {
 }
 
 function main(inputFilePath: string, outputFilePath: string): void {
-    try {
         const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonFromCsv(inputFilePath);
         const convertedPeople: IConvertedPerson[] = originalPeople.map((originalPerson) => convertPerson(originalPerson));
         writeDataToJson(convertedPeople, outputFilePath);
-    } catch (error) {
-        console.error("An error occurred:", error);
-    }
 }
 
 function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
