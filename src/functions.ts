@@ -53,7 +53,10 @@ export function calculateAgeFromDateString(
 export function extractNames(fullName: string): IName {
   const splitName = fullName.split(" ");
 
-  return { firstName: splitName[0], lastName: splitName.pop() ?? "" };
+  return {
+    firstName: splitName[0],
+    lastName: splitName.length > 1 ? splitName.pop() ?? "" : "",
+  };
 }
 
 export function getRelatives(originalPerson: IOriginalPerson): IRelative[] {

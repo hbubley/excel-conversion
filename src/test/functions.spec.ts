@@ -2,10 +2,15 @@ import { expect } from "chai";
 import {
   ErrorMessages,
   calculateAgeFromDateString,
+  extractNames,
   isNull,
 } from "../functions";
 import { faker } from "@faker-js/faker";
 import moment from "moment";
+
+const firstName = faker.person.firstName();
+const middleName = faker.person.middleName();
+const lastName = faker.person.lastName();
 
 describe("excel-converter", () => {
   describe("convertPerson", () => {
@@ -58,36 +63,54 @@ describe("excel-converter", () => {
   });
 
   describe("extractNames", () => {
-    it("will return first and last name given a string with three names", () => {});
+    it("will return first and last name given a string with three names", () => {
+        const nameString = `${firstName} ${middleName} ${lastName}`
+        const res = extractNames(nameString);
 
-    it("will return first and last name given a string with two names", () => {});
+        expect(res.firstName).to.equal(firstName);
+        expect(res.lastName).to.equal(lastName);
+    });
 
-    it("will return last name as an empty string if only one name is present", () => {});
+    it("will return first and last name given a string with two names", () => {
+        const nameString = `${firstName} ${lastName}`
+        const res = extractNames(nameString);
+
+        expect(res.firstName).to.equal(firstName);
+        expect(res.lastName).to.equal(lastName);
+    });
+
+    it("will return last name as an empty string if only one name is present", () => {
+        const nameString = `${firstName}`
+        const res = extractNames(nameString);
+    
+        expect(res.firstName).to.equal(firstName);
+        expect(res.lastName).to.equal("");
+    });
   });
 
   describe("isNull", () => {
     it('will return true given the value "null"', () => {
       const res = isNull("null");
 
-      expect(res).to.be.true
+      expect(res).to.be.true;
     });
 
     it("will return true given a falsy value", () => {
-        const res = isNull(0);
+      const res = isNull(0);
 
-        expect(res).to.be.true
+      expect(res).to.be.true;
     });
 
     it("will return true given an undefined value", () => {
-        const res = isNull(undefined);
+      const res = isNull(undefined);
 
-        expect(res).to.be.true
+      expect(res).to.be.true;
     });
 
     it('will return false given a defined value that is not "null"', () => {
-        const res = isNull(faker.animal.bear());
+      const res = isNull(faker.animal.bear());
 
-        expect(res).to.be.false
+      expect(res).to.be.false;
     });
   });
 
