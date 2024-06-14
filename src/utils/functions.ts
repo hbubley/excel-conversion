@@ -77,3 +77,13 @@ export function writeDataToJson(data: any, filePath: string): void {
 
   fs.writeFileSync(filePath, jsonData);
 }
+
+export async function readJsonFile(filePath: string): Promise<any> {
+  const data = await fs.promises.readFile(filePath, "utf-8");
+  return JSON.parse(data);
+}
+
+export function areJsonEqual(json1: any, json2: any): boolean {
+  return JSON.stringify(json1) === JSON.stringify(json2);
+}
+

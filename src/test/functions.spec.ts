@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import {
+  areJsonEqual,
   calculateAgeFromDateString,
   convertPerson,
   extractNames,
@@ -243,6 +244,20 @@ describe("excel-converter", () => {
       const res = getRelatives(originalPersonWithPartialRelatives);
 
       expect(res).to.deep.equal(convertedPersonWithPartialRelatives.relatives);
+    });
+  });
+
+  describe("areJsonEqual", () => {
+    it("will return true if JSON contents match", () => {
+      const res = areJsonEqual(originalPersonWithRelatives, originalPersonWithRelatives);
+
+      expect(res).to.be.true;
+    });
+
+    it("will return false if JSON contents do not match", () => {
+      const res = areJsonEqual(originalPersonWithRelatives, convertedPersonWithRelatives);
+
+      expect(res).to.be.false;
     });
   });
 });
