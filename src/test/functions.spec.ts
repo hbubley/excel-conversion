@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { calculateAgeFromDateString } from '../functions';
+import { ErrorMessages, calculateAgeFromDateString } from '../functions';
 import { IOriginalPerson } from '@/types';
 import { faker } from '@faker-js/faker';
 import moment from 'moment';
@@ -40,8 +40,9 @@ describe('excel-converter', () => {
             try {
                 calculateAgeFromDateString(faker.date.past().toISOString(), '01/01/2010');
                 ensureLineNotCalled()
-            } catch (error) {
+            } catch (error: any) {
                 expect(error).to.exist
+                expect(error.message).to.equal(ErrorMessages.INVALID_DATE_FORMAT);
             }
         });
 

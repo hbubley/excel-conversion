@@ -3,11 +3,15 @@ import csvToJson from 'convert-csv-to-json';
 import moment, { Moment } from 'moment';
 import { IConvertedPerson, IName, IOriginalPerson, IRelative } from '@/types';
 
-enum PossibleRelatives {
-    Father = "Father",
-    Mother = "Mother",
-    Brother = "Brother",
-    Sister = "Sister"
+export enum PossibleRelatives {
+    FATHER = "Father",
+    MOTHER = "Mother",
+    BROTHER = "Brother",
+    SISTER = "Sister"
+}
+
+export enum ErrorMessages {
+    INVALID_DATE_FORMAT = "Invalid date format"
 }
 
 export function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
@@ -23,14 +27,14 @@ export function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson
     };
 }
 
-export function calculateAgeFromDateString(birthDateStr: string, endDateStr: string|null): number {
+export function calculateAgeFromDateString(birthDateStr: string, endDateStr: string | null): number {
     const birthDate = moment(birthDateStr, 'MM/DD/YYYY');
-    const endDate = isNull(endDateStr) ? moment(): moment(endDateStr, 'MM/DD/YYYY');
+    const endDate = isNull(endDateStr) ? moment() : moment(endDateStr, 'MM/DD/YYYY');
 
     if (!birthDate.isValid() || !endDate.isValid()) {
-        throw new Error('Invalid date format');
+        throw new Error(ErrorMessages.INVALID_DATE_FORMAT);
     }
-    
+
     return moment(endDate).diff(birthDate, 'years', false);
 }
 
