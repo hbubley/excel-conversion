@@ -35,7 +35,9 @@ const birthDateStr = moment(endDateStr, "MM/DD/YYYY")
   .subtract(expectedYearDiff, "years")
   .format("MM/DD/YYYY");
 
-const convertedBirthDateStr = moment(birthDateStr, "MM/DD/YYYY").format("YYYY-MM-DD");
+const convertedBirthDateStr = moment(birthDateStr, "MM/DD/YYYY").format(
+  "YYYY-MM-DD"
+);
 
 const originalPersonWithRelatives: IOriginalPerson = {
   Name: `${firstName} ${middleName} ${lastName}`,
