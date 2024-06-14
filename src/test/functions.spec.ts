@@ -1,30 +1,89 @@
 import { expect } from "chai";
 import {
   ErrorMessages,
+  PossibleRelatives,
   calculateAgeFromDateString,
+  convertPerson,
   extractNames,
   isNull,
 } from "../functions";
 import { faker } from "@faker-js/faker";
 import moment from "moment";
+import { IConvertedPerson, IOriginalPerson } from "@/types";
 
 const firstName = faker.person.firstName();
 const middleName = faker.person.middleName();
 const lastName = faker.person.lastName();
 
+const fatherFirstName = faker.person.firstName();
+const fatherMiddleName = faker.person.middleName();
+const fatherLastName = faker.person.lastName();
+
+const motherFirstName = faker.person.firstName();
+const motherMiddleName = faker.person.middleName();
+const motherLastName = faker.person.lastName();
+
+const brotherFirstName = faker.person.firstName();
+const brotherLastName = faker.person.lastName();
+
+const sisterFirstName = faker.person.firstName();
+
+const expectedYearDiff = faker.number.int(50);
+const endDateStr = moment(faker.date.past()).format("MM/DD/YYYY");
+const birthDateStr = moment(endDateStr, "MM/DD/YYYY")
+  .subtract(expectedYearDiff, "years")
+  .format("MM/DD/YYYY");
+
+const originalPersonWithRelatives: IOriginalPerson = {
+  Name: `${firstName} ${middleName} ${lastName}`,
+  Birthday: birthDateStr,
+  Died: endDateStr,
+  Father: `${fatherFirstName} ${fatherMiddleName} ${fatherLastName}`,
+  Mother: `${motherFirstName} ${motherMiddleName} ${motherLastName}`,
+  Brother: `${brotherFirstName} ${brotherLastName}`,
+  Sister: `${sisterFirstName}`,
+};
+
+const convertedPersonWithRelatives: IConvertedPerson = {
+  firstName,
+  lastName,
+  birthday: moment(originalPersonWithRelatives.Birthday).format("YYYY-MM-DD"),
+  age: expectedYearDiff,
+  relatives: [
+    {
+      firstName: fatherFirstName,
+      lastName: fatherLastName,
+      relationship: PossibleRelatives.FATHER,
+    },
+    {
+      firstName: motherFirstName,
+      lastName: motherLastName,
+      relationship: PossibleRelatives.MOTHER,
+    },
+    {
+      firstName: brotherFirstName,
+      lastName: brotherLastName,
+      relationship: PossibleRelatives.BROTHER,
+    },
+    {
+      firstName: sisterFirstName,
+      lastName: "",
+      relationship: PossibleRelatives.SISTER,
+    },
+  ],
+};
+
 describe("excel-converter", () => {
   describe("convertPerson", () => {
-    it("will convert a person correctly", () => {});
+    it("will convert a person's data into the expected format", () => {
+      const res = convertPerson(originalPersonWithRelatives);
+
+      expect(res).to.deep.equal(convertedPersonWithRelatives);
+    });
   });
 
   describe("calculateAgeFromDateString", () => {
     it("will calculate the age correctly when both birth date and end date are provided", () => {
-      const expectedYearDiff = faker.number.int(50);
-      const endDateStr = moment(faker.date.past()).format("MM/DD/YYYY");
-      const birthDateStr = moment(endDateStr, "MM/DD/YYYY")
-        .subtract(expectedYearDiff, "years")
-        .format("MM/DD/YYYY");
-
       const age = calculateAgeFromDateString(birthDateStr, endDateStr);
 
       expect(age).to.equal(expectedYearDiff);
@@ -46,7 +105,7 @@ describe("excel-converter", () => {
       expect(age).to.equal(9);
     });
 
-    it("will throw an error if date is invalid", () => {
+    it("will throw an error if date is invalid format", () => {
       const ensureLineNotCalled = () => expect(true).to.be.false;
 
       try {
@@ -64,27 +123,27 @@ describe("excel-converter", () => {
 
   describe("extractNames", () => {
     it("will return first and last name given a string with three names", () => {
-        const nameString = `${firstName} ${middleName} ${lastName}`
-        const res = extractNames(nameString);
+      const nameString = `${firstName} ${middleName} ${lastName}`;
+      const res = extractNames(nameString);
 
-        expect(res.firstName).to.equal(firstName);
-        expect(res.lastName).to.equal(lastName);
+      expect(res.firstName).to.equal(firstName);
+      expect(res.lastName).to.equal(lastName);
     });
 
     it("will return first and last name given a string with two names", () => {
-        const nameString = `${firstName} ${lastName}`
-        const res = extractNames(nameString);
+      const nameString = `${firstName} ${lastName}`;
+      const res = extractNames(nameString);
 
-        expect(res.firstName).to.equal(firstName);
-        expect(res.lastName).to.equal(lastName);
+      expect(res.firstName).to.equal(firstName);
+      expect(res.lastName).to.equal(lastName);
     });
 
     it("will return last name as an empty string if only one name is present", () => {
-        const nameString = `${firstName}`
-        const res = extractNames(nameString);
-    
-        expect(res.firstName).to.equal(firstName);
-        expect(res.lastName).to.equal("");
+      const nameString = `${firstName}`;
+      const res = extractNames(nameString);
+
+      expect(res.firstName).to.equal(firstName);
+      expect(res.lastName).to.equal("");
     });
   });
 
