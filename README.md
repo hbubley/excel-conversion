@@ -29,7 +29,7 @@ This is a simple Node.js application for converting a specific input csv file to
 1. Run the following command:
 
     ```bash
-    npx ts-node excel-converter.ts
+    npm run script
     ```
 
 2. After the conversion process is completed, you will find the output JSON file named output.json in the project directory.
