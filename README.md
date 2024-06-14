@@ -52,8 +52,8 @@ After the conversion process is completed, you will find the output JSON file na
     ```
 
 ### Script Details
-## Conversion Script (npm run script):
+#### Conversion Script (npm run script):
 This script reads the input.csv file, processes the data, and generates an output.json file.
 
-## Comparison Script (npm run compare-json):
+#### Comparison Script (npm run compare-json):
 This script compares the generated output.json file with the expected output to ensure correctness.
