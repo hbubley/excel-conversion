@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "script": "npx ts-node src/index",
-    "test": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/test/*.ts'"
+    "script": "npx ts-node -r tsconfig-paths/register src/index",
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register -r tsconfig-paths/register 'src/test/*.ts'"
   },
   "dependencies": {
     "@types/chai": "^4.3.16",
@@ -13,6 +13,7 @@
     "moment": "^2.30.1",
     "sinon": "^18.0.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   },
   "devDependencies": {

@@ -1,17 +1,12 @@
 import fs from "fs";
 import moment from "moment";
-import { IConvertedPerson, IName, IOriginalPerson, IRelative } from "@/types";
-
-export enum PossibleRelatives {
-  FATHER = "Father",
-  MOTHER = "Mother",
-  BROTHER = "Brother",
-  SISTER = "Sister",
-}
-
-export enum ErrorMessages {
-  INVALID_DATE_FORMAT = "Invalid date format",
-}
+import {
+  IConvertedPerson,
+  IName,
+  IOriginalPerson,
+  IRelative,
+} from "@/utils/types";
+import { ErrorMessages, PossibleRelatives } from "./constants";
 
 export function convertPerson(
   originalPerson: IOriginalPerson

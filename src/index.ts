@@ -1,6 +1,6 @@
 import csvToJson from "convert-csv-to-json";
-import { IConvertedPerson, IOriginalPerson } from "@/types";
-import { convertPerson, writeDataToJson } from "./functions";
+import { IConvertedPerson, IOriginalPerson } from "@/utils/types";
+import { convertPerson, writeDataToJson } from "@/utils/functions";
 
 function main(inputFilePath: string, outputFilePath: string): void {
   const originalPeople: IOriginalPerson[] = csvToJson

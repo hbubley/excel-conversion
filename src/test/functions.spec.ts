@@ -1,16 +1,15 @@
 import { expect } from "chai";
 import {
-  ErrorMessages,
-  PossibleRelatives,
   calculateAgeFromDateString,
   convertPerson,
   extractNames,
   getRelatives,
   isNull,
-} from "../functions";
+} from "@/utils/functions";
 import { faker } from "@faker-js/faker";
 import moment from "moment";
-import { IConvertedPerson, IOriginalPerson } from "@/types";
+import { IConvertedPerson, IOriginalPerson } from "@/utils/types";
+import { ErrorMessages, PossibleRelatives } from "@/utils/constants";
 
 const firstName = faker.person.firstName();
 const middleName = faker.person.middleName();
