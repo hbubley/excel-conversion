@@ -30,10 +30,12 @@ const brotherLastName = faker.person.lastName();
 const sisterFirstName = faker.person.firstName();
 
 const expectedYearDiff = faker.number.int(50);
-const endDateStr = moment(faker.date.past()).format("MM/DD/YYYY");
+const endDateStr = moment(faker.date.past(), "MM/DD/YYYY").format("MM/DD/YYYY");
 const birthDateStr = moment(endDateStr, "MM/DD/YYYY")
   .subtract(expectedYearDiff, "years")
   .format("MM/DD/YYYY");
+
+const convertedBirthDateStr = moment(birthDateStr, "MM/DD/YYYY").format("YYYY-MM-DD");
 
 const originalPersonWithRelatives: IOriginalPerson = {
   Name: `${firstName} ${middleName} ${lastName}`,
@@ -65,7 +67,7 @@ const originalPersonWithPartialRelatives: IOriginalPerson = {
 const convertedPersonWithRelatives: IConvertedPerson = {
   firstName,
   lastName,
-  birthday: moment(originalPersonWithRelatives.Birthday).format("YYYY-MM-DD"),
+  birthday: convertedBirthDateStr,
   age: expectedYearDiff,
   relatives: [
     {
@@ -94,7 +96,7 @@ const convertedPersonWithRelatives: IConvertedPerson = {
 const convertedPersonWithoutRelatives: IConvertedPerson = {
   firstName,
   lastName,
-  birthday: moment(originalPersonWithRelatives.Birthday).format("YYYY-MM-DD"),
+  birthday: convertedBirthDateStr,
   age: expectedYearDiff,
   relatives: [],
 };
@@ -102,7 +104,7 @@ const convertedPersonWithoutRelatives: IConvertedPerson = {
 const convertedPersonWithPartialRelatives: IConvertedPerson = {
   firstName,
   lastName,
-  birthday: moment(originalPersonWithRelatives.Birthday).format("YYYY-MM-DD"),
+  birthday: convertedBirthDateStr,
   age: expectedYearDiff,
   relatives: [
     {
@@ -155,7 +157,7 @@ describe("excel-converter", () => {
       try {
         calculateAgeFromDateString(
           faker.date.past().toISOString(),
-          birthDateStr,
+          birthDateStr
         );
         ensureLineNotCalled();
       } catch (error: any) {
@@ -219,21 +221,21 @@ describe("excel-converter", () => {
 
   describe("getRelatives", () => {
     it("will return an empty array for relatives if none are present in the input data", () => {
-        const res = getRelatives(originalPersonWithoutRelatives);
+      const res = getRelatives(originalPersonWithoutRelatives);
 
-        expect(res).to.deep.equal(convertedPersonWithoutRelatives.relatives);
+      expect(res).to.deep.equal(convertedPersonWithoutRelatives.relatives);
     });
 
     it("will return all relatives if they are present in the input data", () => {
-        const res = getRelatives(originalPersonWithRelatives);
+      const res = getRelatives(originalPersonWithRelatives);
 
-        expect(res).to.deep.equal(convertedPersonWithRelatives.relatives);
+      expect(res).to.deep.equal(convertedPersonWithRelatives.relatives);
     });
 
     it("will return only the relatives that are present in the input data", () => {
-        const res = getRelatives(originalPersonWithPartialRelatives);
+      const res = getRelatives(originalPersonWithPartialRelatives);
 
-        expect(res).to.deep.equal(convertedPersonWithPartialRelatives.relatives);
+      expect(res).to.deep.equal(convertedPersonWithPartialRelatives.relatives);
     });
   });
 });
