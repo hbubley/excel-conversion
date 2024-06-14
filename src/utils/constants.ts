@@ -8,3 +8,5 @@ export enum PossibleRelatives {
 export enum ErrorMessages {
   INVALID_DATE_FORMAT = "Invalid date format",
 }
+
+export const ExpectedDateFormat = "MM/DD/YYYY";

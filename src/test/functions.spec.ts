@@ -9,7 +9,11 @@ import {
 import { faker } from "@faker-js/faker";
 import moment from "moment";
 import { IConvertedPerson, IOriginalPerson } from "@/utils/types";
-import { ErrorMessages, PossibleRelatives } from "@/utils/constants";
+import {
+  ErrorMessages,
+  ExpectedDateFormat,
+  PossibleRelatives,
+} from "@/utils/constants";
 
 const firstName = faker.person.firstName();
 const middleName = faker.person.middleName();
@@ -29,12 +33,14 @@ const brotherLastName = faker.person.lastName();
 const sisterFirstName = faker.person.firstName();
 
 const expectedYearDiff = faker.number.int(50);
-const endDateStr = moment(faker.date.past(), "MM/DD/YYYY").format("MM/DD/YYYY");
-const birthDateStr = moment(endDateStr, "MM/DD/YYYY")
+const endDateStr = moment(faker.date.past(), ExpectedDateFormat).format(
+  ExpectedDateFormat
+);
+const birthDateStr = moment(endDateStr, ExpectedDateFormat)
   .subtract(expectedYearDiff, "years")
-  .format("MM/DD/YYYY");
+  .format(ExpectedDateFormat);
 
-const convertedBirthDateStr = moment(birthDateStr, "MM/DD/YYYY").format(
+const convertedBirthDateStr = moment(birthDateStr, ExpectedDateFormat).format(
   "YYYY-MM-DD"
 );
 
@@ -140,7 +146,7 @@ describe("excel-converter", () => {
     it("will calculate the age correctly when the end date is null, using the current date as the end date", () => {
       const birthDateStr = moment()
         .subtract(expectedYearDiff, "years")
-        .format("MM/DD/YYYY");
+        .format(ExpectedDateFormat);
 
       const age = calculateAgeFromDateString(birthDateStr, null);
 

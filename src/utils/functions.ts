@@ -6,7 +6,11 @@ import {
   IOriginalPerson,
   IRelative,
 } from "@/utils/types";
-import { ErrorMessages, PossibleRelatives } from "./constants";
+import {
+  ErrorMessages,
+  ExpectedDateFormat,
+  PossibleRelatives,
+} from "@/utils/constants";
 
 export function convertPerson(
   originalPerson: IOriginalPerson
@@ -20,7 +24,7 @@ export function convertPerson(
 
   return {
     ...nameObject,
-    birthday: moment(originalPerson.Birthday, "MM/DD/YYYY").format(
+    birthday: moment(originalPerson.Birthday, ExpectedDateFormat).format(
       "YYYY-MM-DD"
     ),
     age,
@@ -32,10 +36,10 @@ export function calculateAgeFromDateString(
   birthDateStr: string,
   endDateStr: string | null
 ): number {
-  const birthDate = moment(birthDateStr, "MM/DD/YYYY");
+  const birthDate = moment(birthDateStr, ExpectedDateFormat);
   const endDate = isNull(endDateStr)
     ? moment()
-    : moment(endDateStr, "MM/DD/YYYY");
+    : moment(endDateStr, ExpectedDateFormat);
 
   if (!birthDate.isValid() || !endDate.isValid()) {
     throw new Error(ErrorMessages.INVALID_DATE_FORMAT);
