@@ -1,6 +1,6 @@
 ## Excel Converter
 
-This is a simple Node.js application for converting a specific input csv file to JSON format using TypeScript.
+This is a simple Node.js application for converting a specific input CSV file to JSON format using TypeScript. The project reads an input CSV file named input.csv, manipulates the data, and produces an output file named output.json.
 
 ### Prerequisites
 - Node.js (version >= 14.17)
@@ -31,10 +31,9 @@ This is a simple Node.js application for converting a specific input csv file to
     ```bash
     npm run script
     ```
+After the conversion process is completed, you will find the output JSON file named output.json in the project directory.
 
-2. After the conversion process is completed, you will find the output JSON file named output.json in the project directory.
-
-3. Compare results and confirm output matches expected result:
+3. **Extra** Compare results and confirm output matches expected result:
     ```bash
     npm run compare-json
     ```
