@@ -1,5 +1,6 @@
 import fs from 'fs';
 import csvToJson from 'convert-csv-to-json';
+import moment, { Moment } from 'moment';
 import { IConvertedPerson, IName, IOriginalPerson, IRelative } from '@/types';
 
 enum PossibleRelatives {
@@ -9,40 +10,28 @@ enum PossibleRelatives {
     Sister = "Sister"
 }
 
-export function main(inputFilePath: string, outputFilePath: string): void {
-        const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonFromCsv(inputFilePath);
-        const convertedPeople: IConvertedPerson[] = originalPeople.map((originalPerson) => convertPerson(originalPerson));
-        writeDataToJson(convertedPeople, outputFilePath);
-}
-
 export function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = extractNames(originalPerson.Name);
-    const birthDate = new Date(originalPerson.Birthday);
-    const endDate = isNull(originalPerson.Died) ? new Date(): new Date(originalPerson.Died as string);
-    const age = calculateAge(birthDate, endDate);
+    const age = calculateAgeFromDateString(originalPerson.Birthday, originalPerson.Died ?? null);
     const relatives = getRelatives(originalPerson);
 
     return {
         ...nameObject,
-        birthday: birthDate.toISOString().split('T')[0],
+        birthday: moment(originalPerson.Birthday, 'MM/DD/YYYY').format('YYYY-MM-DD'),
         age,
         relatives
     };
 }
 
-export function calculateAge(birthDate: Date, endDate: Date): number {
-    const endYear = endDate.getFullYear();
-    let age = endYear - birthDate.getFullYear();
+export function calculateAgeFromDateString(birthDateStr: string, endDateStr: string|null): number {
+    const birthDate = moment(birthDateStr, 'MM/DD/YYYY');
+    const endDate = isNull(endDateStr) ? moment(): moment(endDateStr, 'MM/DD/YYYY');
 
-    const monthDiff = endDate.getMonth() - birthDate.getMonth();
-    const dayDiff = endDate.getDate() - birthDate.getDate();
-    const hasNotReachedCurrentBirthday = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) && endYear === new Date().getFullYear();
-
-    if (hasNotReachedCurrentBirthday) {
-        age--;
+    if (!birthDate.isValid() || !endDate.isValid()) {
+        throw new Error('Invalid date format');
     }
-
-    return age;
+    
+    return moment(endDate).diff(birthDate, 'years', false);
 }
 
 export function extractNames(fullName: string): IName {
@@ -69,5 +58,3 @@ export function writeDataToJson(data: any, filePath: string): void {
 
     fs.writeFileSync(filePath, jsonData);
 }
-
-main('./input.csv', './output.json');
