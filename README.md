@@ -33,3 +33,16 @@ This is a simple Node.js application for converting a specific input csv file to
     ```
 
 2. After the conversion process is completed, you will find the output JSON file named output.json in the project directory.
+
+### Test Usage
+1. Ensure mocha is globally installed:
+
+    ```bash
+    npm install -g mocha
+    ```
+
+1. Run the following command:
+
+    ```bash
+    npm run test
+    ```
