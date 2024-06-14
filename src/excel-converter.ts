@@ -9,13 +9,13 @@ enum PossibleRelatives {
     Sister = "Sister"
 }
 
-function main(inputFilePath: string, outputFilePath: string): void {
+export function main(inputFilePath: string, outputFilePath: string): void {
         const originalPeople: IOriginalPerson[] = csvToJson.fieldDelimiter(',').getJsonFromCsv(inputFilePath);
         const convertedPeople: IConvertedPerson[] = originalPeople.map((originalPerson) => convertPerson(originalPerson));
         writeDataToJson(convertedPeople, outputFilePath);
 }
 
-function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
+export function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     const nameObject = extractNames(originalPerson.Name);
     const birthDate = new Date(originalPerson.Birthday);
     const endDate = isNull(originalPerson.Died) ? new Date(): new Date(originalPerson.Died as string);
@@ -30,7 +30,7 @@ function convertPerson(originalPerson: IOriginalPerson): IConvertedPerson {
     };
 }
 
-function calculateAge(birthDate: Date, endDate: Date): number {
+export function calculateAge(birthDate: Date, endDate: Date): number {
     const endYear = endDate.getFullYear();
     let age = endYear - birthDate.getFullYear();
 
@@ -45,13 +45,13 @@ function calculateAge(birthDate: Date, endDate: Date): number {
     return age;
 }
 
-function extractNames(fullName: string): IName {
+export function extractNames(fullName: string): IName {
     const splitName = fullName.split(" ");
 
     return { firstName: splitName[0], lastName: splitName.pop() ?? "" };
 }
 
-function getRelatives(originalPerson: IOriginalPerson): IRelative[] {
+export function getRelatives(originalPerson: IOriginalPerson): IRelative[] {
     return Object.values(PossibleRelatives)
         .filter((relative) => !isNull(originalPerson[relative]))
         .map((relative) => {
@@ -60,14 +60,14 @@ function getRelatives(originalPerson: IOriginalPerson): IRelative[] {
         });
 }
 
-function isNull(field: any): boolean {
+export function isNull(field: any): boolean {
     return field && field !== "null" ? false : true;
 }
 
-function writeDataToJson(data: any, filePath: string): void {
+export function writeDataToJson(data: any, filePath: string): void {
     const jsonData = JSON.stringify(data, null, 2);
 
     fs.writeFileSync(filePath, jsonData);
 }
 
-main('input.csv', 'output.json');
+main('./input.csv', './output.json');

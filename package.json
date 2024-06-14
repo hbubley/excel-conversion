@@ -1,8 +1,21 @@
 {
+  "scripts": {
+    "script": "npx ts-node src/excel-converter.ts",
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'"
+  },
   "dependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/sinon": "^17.0.3",
+    "chai": "4.1.1",
     "convert-csv-to-json": "^2.47.0",
+    "cross-env": "^7.0.3",
     "csv-parse": "^5.5.6",
+    "sinon": "^18.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "mocha": "^10.4.0"
   }
 }
