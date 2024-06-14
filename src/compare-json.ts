@@ -13,3 +13,4 @@ async function main(file1: string, file2: string): Promise<void> {
 }
 
 main(Paths.DESIRED_RESULT, Paths.RESULT_OUTPUT);
+

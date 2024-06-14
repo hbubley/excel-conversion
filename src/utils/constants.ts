@@ -19,6 +19,6 @@ export const ExpectedDateFormat = "MM/DD/YYYY";
 export enum Paths {
     RESULT_OUTPUT = "output.json",
     DESIRED_RESULT = "src/utils/expected-output.json",
-    INPUT = "input.csv"
+    INPUT = "src/utils/input.csv"
 }
 
