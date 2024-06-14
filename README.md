@@ -41,7 +41,7 @@ This is a simple Node.js application for converting a specific input csv file to
     npm install -g mocha
     ```
 
-1. Run the following command:
+2. Run the following command:
 
     ```bash
     npm run test
