@@ -50,3 +50,10 @@ After the conversion process is completed, you will find the output JSON file na
     ```bash
     npm run test
     ```
+
+### Script Details
+## Conversion Script (npm run script):
+This script reads the input.csv file, processes the data, and generates an output.json file.
+
+## Comparison Script (npm run compare-json):
+This script compares the generated output.json file with the expected output to ensure correctness.
