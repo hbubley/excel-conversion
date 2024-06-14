@@ -1,6 +1,5 @@
 import fs from "fs";
-import csvToJson from "convert-csv-to-json";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import { IConvertedPerson, IName, IOriginalPerson, IRelative } from "@/types";
 
 export enum PossibleRelatives {

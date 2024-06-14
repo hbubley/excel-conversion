@@ -135,7 +135,6 @@ describe("excel-converter", () => {
     });
 
     it("will calculate the age correctly when the end date is null, using the current date as the end date", () => {
-      const expectedYearDiff = faker.number.int(50);
       const birthDateStr = moment()
         .subtract(expectedYearDiff, "years")
         .format("MM/DD/YYYY");
@@ -156,7 +155,7 @@ describe("excel-converter", () => {
       try {
         calculateAgeFromDateString(
           faker.date.past().toISOString(),
-          "01/01/2010"
+          birthDateStr,
         );
         ensureLineNotCalled();
       } catch (error: any) {
