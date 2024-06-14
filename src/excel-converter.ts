@@ -1,6 +1,6 @@
 import fs from 'fs';
 import csvToJson from 'convert-csv-to-json';
-import { IConvertedPerson, IName, IOriginalPerson, IRelative } from './types';
+import { IConvertedPerson, IName, IOriginalPerson, IRelative } from '@/types';
 
 enum PossibleRelatives {
     Father = "Father",

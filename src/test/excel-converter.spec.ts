@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { convertPerson } from '../src/excel-converter';
-import { IOriginalPerson } from '../src/types';
+import { convertPerson } from '@/excel-converter';
+import { IOriginalPerson } from '@/types';
 
 describe('excel-converter', () => {
     describe('convertPerson', () => {
@@ -8,7 +8,7 @@ describe('excel-converter', () => {
         });
         it('will pass value for Died into calculateAge if one exists', () => {
         });
-      
+
         it('will pass value for today into calculateAge if Died does not exist', () => {
         });
     });

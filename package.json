@@ -1,7 +1,7 @@
 {
   "scripts": {
     "script": "npx ts-node src/excel-converter.ts",
-    "test": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'"
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/**/*.ts'"
   },
   "dependencies": {
     "@types/chai": "^4.3.16",
