@@ -208,12 +208,6 @@ describe("excel-converter", () => {
       expect(res).to.be.true;
     });
 
-    it("will return true given a falsy value", () => {
-      const res = isNull(0);
-
-      expect(res).to.be.true;
-    });
-
     it("will return true given an undefined value", () => {
       const res = isNull(undefined);
 

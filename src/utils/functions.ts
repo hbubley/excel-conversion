@@ -49,11 +49,11 @@ export function calculateAgeFromDateString(
 }
 
 export function extractNames(fullName: string): IName {
-  const splitName = fullName.split(" ");
+  const [firstName, ...remainderOfName] = fullName.split(" ");
 
   return {
-    firstName: splitName[0],
-    lastName: splitName.length > 1 ? splitName.pop() ?? "" : "",
+    firstName: firstName,
+    lastName: remainderOfName.pop() ?? "",
   };
 }
 
@@ -68,8 +68,8 @@ export function getRelatives(originalPerson: IOriginalPerson): IRelative[] {
     });
 }
 
-export function isNull(field: any): boolean {
-  return field && field !== "null" ? false : true;
+export function isNull(field: unknown): boolean {
+  return field === undefined || field == null || field === "null";
 }
 
 export function writeDataToJson(data: any, filePath: string): void {
