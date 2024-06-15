@@ -33,7 +33,7 @@ This is a simple Node.js application for converting a specific input CSV file to
     ```
 After the conversion process is completed, you will find the output JSON file named output.json in the project directory.
 
-3. **Extra** Compare results and confirm output matches expected result:
+2. **Extra** Compare results and confirm output matches expected result:
     ```bash
     npm run compare-json
     ```
